@@ -1,0 +1,15 @@
+.env
+__pycache__/
+*.pyc
+*.log
+.env.*
+*.jsonl
+.envrc
+.env.bak
+*.DS_Store
+.env.*
+.envrc
+venv/
+env/
+.idea/
+*.csv
