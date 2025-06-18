@@ -9,12 +9,13 @@ from dateutil import parser
 import polars as pl
 import asyncio
 from schemas import SensorData
+from classifier import classify  # Add this import at the top
 
 warnings.filterwarnings("ignore")
 
 DATA_DIR = os.path.join(os.path.dirname(__file__) or ".", "data")
 DROP_COLUMNS = {"Mission_Milestone"}
-REALTIME_DELAY = 0.0001  # seconds
+REALTIME_DELAY = 0.0000000000001  # seconds
 
 def get_source(file_path):
     if "edeniss2020" in file_path.lower():
@@ -27,7 +28,15 @@ def get_source(file_path):
 
 def extract_events_from_file(file_path):
     events = []
+
+    # Determine top-level data source (e.g. 'edeniss2020')
     source = get_source(file_path)
+
+    # Determine subsystem for edeniss2020, e.g., 'ams-feg'
+    if "edeniss2020" in file_path.lower():
+        subsystem = Path(file_path).parts[-2].lower()
+    else:
+        subsystem = source.lower()
 
     header_skip = 0
     try:
@@ -105,11 +114,14 @@ def extract_events_from_file(file_path):
                         value = int(value) if re.fullmatch(r"[-+]?\d+", value) else float(value)
                     except Exception:
                         continue
-                clean_sensor = sensor.rstrip(".xy")
+
+                clean_sensor = sensor.strip().rstrip(".xy").lower().replace(" ", "_")
+                full_sensor_name = f"{subsystem}-{clean_sensor}"
+
                 try:
                     obj = SensorData(
                         timestamp=ts_str,
-                        sensor=clean_sensor,
+                        sensor=full_sensor_name,
                         value=value,
                         source=source
                     )
@@ -118,10 +130,12 @@ def extract_events_from_file(file_path):
                     print(f"❌ Validation error: {e}", file=sys.stderr)
     return events
 
+
 async def stream_sorted_events(events):
     events.sort(key=lambda x: x[0])  # Sort by datetime
     for _, sensor_obj in events:
-        sys.stdout.write(sensor_obj.json() + "\n")
+        data = sensor_obj.dict()     # Convert Pydantic object to dict
+        classify(data)               # Send to classifier
         await asyncio.sleep(REALTIME_DELAY)
 
 async def main():
