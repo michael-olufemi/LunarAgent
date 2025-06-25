@@ -1,0 +1,98 @@
+Filename,Path,Subsystem,Sensor Type (short),Sensor Type (long),Unit
+co2-1.csv,ams-feg/co2-1.csv,AMS-FEG,CO2,Carbon Dioxide,ppm
+co2-gl.csv,ams-feg/co2-gl.csv,AMS-FEG,CO2,Carbon Dioxide,ppm
+par-1.csv,ams-feg/par-1.csv,AMS-FEG,PAR,Photosynthetically Active Radioa,umol/m^2/s
+par-2.csv,ams-feg/par-2.csv,AMS-FEG,PAR,Photosynthetically Active Radioa,umol/m^2/s
+rh-1.csv,ams-feg/rh-1.csv,AMS-FEG,RH,Relative Humidity,percent
+rh-2.csv,ams-feg/rh-2.csv,AMS-FEG,RH,Relative Humidity,percent
+temp-1.csv,ams-feg/temp-1.csv,AMS-FEG,T,Temperature,degrees celsius
+temp-2.csv,ams-feg/temp-2.csv,AMS-FEG,T,Temperature,degrees celsius
+temp-gl.csv,ams-feg/temp-gl.csv,AMS-FEG,T,Temperature,degrees celsius
+co2-1.csv,ams-ses/co2-1.csv,AMS-SES,CO2,Carbon Dioxide,ppm
+co2-gl.csv,ams-ses/co2-gl.csv,AMS-SES,CO2,Carbon Dioxide,ppm
+par-1.csv,ams-ses/par-1.csv,AMS-SES,PAR,Photosynthetically Active Radioa,umol/m^2/s
+rh-1.csv,ams-ses/rh-1.csv,AMS-SES,RH,Relative Humidity,percent
+temp-1.csv,ams-ses/temp-1.csv,AMS-SES,T,Temperature,degrees celsius
+temp-air_in_1.csv,ams-ses/temp-air_in_1.csv,AMS-SES,T,Temperature,degrees celsius
+temp-air_in_2.csv,ams-ses/temp-air_in_2.csv,AMS-SES,T,Temperature,degrees celsius
+vpd-1.csv,ams-ses/vpd-1.csv,AMS-SES,VPD,Vapor Pressure Deficit,mbar
+l1-2l.csv,ics/l1-2l.csv,ICS,T,Temperature,degrees celsius
+l1-2r.csv,ics/l1-2r.csv,ICS,T,Temperature,degrees celsius
+l1-4l.csv,ics/l1-4l.csv,ICS,T,Temperature,degrees celsius
+l1-4r.csv,ics/l1-4r.csv,ICS,T,Temperature,degrees celsius
+l2-2l.csv,ics/l2-2l.csv,ICS,T,Temperature,degrees celsius
+l2-2r.csv,ics/l2-2r.csv,ICS,T,Temperature,degrees celsius
+l2-3l.csv,ics/l2-3l.csv,ICS,T,Temperature,degrees celsius
+l2-3r.csv,ics/l2-3r.csv,ICS,T,Temperature,degrees celsius
+l2-4l.csv,ics/l2-4l.csv,ICS,T,Temperature,degrees celsius
+l2-4r.csv,ics/l2-4r.csv,ICS,T,Temperature,degrees celsius
+l3-1l.csv,ics/l3-1l.csv,ICS,T,Temperature,degrees celsius
+l3-1r.csv,ics/l3-1r.csv,ICS,T,Temperature,degrees celsius
+l3-2l.csv,ics/l3-2l.csv,ICS,T,Temperature,degrees celsius
+l3-2r.csv,ics/l3-2r.csv,ICS,T,Temperature,degrees celsius
+l3-3l.csv,ics/l3-3l.csv,ICS,T,Temperature,degrees celsius
+l3-3r.csv,ics/l3-3r.csv,ICS,T,Temperature,degrees celsius
+l3-4l.csv,ics/l3-4l.csv,ICS,T,Temperature,degrees celsius
+l3-4r.csv,ics/l3-4r.csv,ICS,T,Temperature,degrees celsius
+l4-1l.csv,ics/l4-1l.csv,ICS,T,Temperature,degrees celsius
+l4-1r.csv,ics/l4-1r.csv,ICS,T,Temperature,degrees celsius
+l4-2l.csv,ics/l4-2l.csv,ICS,T,Temperature,degrees celsius
+l4-2r.csv,ics/l4-2r.csv,ICS,T,Temperature,degrees celsius
+l4-3l.csv,ics/l4-3l.csv,ICS,T,Temperature,degrees celsius
+l4-3r.csv,ics/l4-3r.csv,ICS,T,Temperature,degrees celsius
+l4-4l.csv,ics/l4-4l.csv,ICS,T,Temperature,degrees celsius
+l4-4r.csv,ics/l4-4r.csv,ICS,T,Temperature,degrees celsius
+r1-2l.csv,ics/r1-2l.csv,ICS,T,Temperature,degrees celsius
+r1-2r.csv,ics/r1-2r.csv,ICS,T,Temperature,degrees celsius
+r1-4l.csv,ics/r1-4l.csv,ICS,T,Temperature,degrees celsius
+r1-4r.csv,ics/r1-4r.csv,ICS,T,Temperature,degrees celsius
+r2-4l.csv,ics/r2-4l.csv,ICS,T,Temperature,degrees celsius
+r2-4r.csv,ics/r2-4r.csv,ICS,T,Temperature,degrees celsius
+r3-4l.csv,ics/r3-4l.csv,ICS,T,Temperature,degrees celsius
+r3-4r.csv,ics/r3-4r.csv,ICS,T,Temperature,degrees celsius
+r4-2l.csv,ics/r4-2l.csv,ICS,T,Temperature,degrees celsius
+r4-2r.csv,ics/r4-2r.csv,ICS,T,Temperature,degrees celsius
+r4-4l.csv,ics/r4-4l.csv,ICS,T,Temperature,degrees celsius
+r4-4r.csv,ics/r4-4r.csv,ICS,T,Temperature,degrees celsius
+ec-tank1_1.csv,nds/ec-tank1_1.csv,NDS,EC,Electrical Conductivity ,mS/cm
+ec-tank1_2.csv,nds/ec-tank1_2.csv,NDS,EC,Electrical Conductivity ,mS/cm
+ec-tank2_1.csv,nds/ec-tank2_1.csv,NDS,EC,Electrical Conductivity ,mS/cm
+ec-tank2_2.csv,nds/ec-tank2_2.csv,NDS,EC,Electrical Conductivity ,mS/cm
+level-tank1.csv,nds/level-tank1.csv,NDS,H,Level,cm
+level-tank2.csv,nds/level-tank2.csv,NDS,H,Level,cm
+ph-tank1_1.csv,nds/ph-tank1_1.csv,NDS,PH,pH Value,
+ph-tank1_2.csv,nds/ph-tank1_2.csv,NDS,PH,pH Value,
+ph-tank2_1.csv,nds/ph-tank2_1.csv,NDS,PH,pH Value,
+ph-tank2_2.csv,nds/ph-tank2_2.csv,NDS,PH,pH Value,
+pressure-l1.csv,nds/pressure-l1.csv,NDS,P,Pressure,bar
+pressure-l2.csv,nds/pressure-l2.csv,NDS,P,Pressure,bar
+pressure-l3.csv,nds/pressure-l3.csv,NDS,P,Pressure,bar
+pressure-l4.csv,nds/pressure-l4.csv,NDS,P,Pressure,bar
+pressure-r1.csv,nds/pressure-r1.csv,NDS,P,Pressure,bar
+pressure-r2.csv,nds/pressure-r2.csv,NDS,P,Pressure,bar
+pressure-r3.csv,nds/pressure-r3.csv,NDS,P,Pressure,bar
+pressure-r4.csv,nds/pressure-r4.csv,NDS,P,Pressure,bar
+temp-tank1_1.csv,nds/temp-tank1_1.csv,NDS,T,Temperature,degrees celsius
+temp-tank1_2.csv,nds/temp-tank1_2.csv,NDS,T,Temperature,degrees celsius
+temp-tank2_1.csv,nds/temp-tank2_1.csv,NDS,T,Temperature,degrees celsius
+temp-tank2_2.csv,nds/temp-tank2_2.csv,NDS,T,Temperature,degrees celsius
+volume-tank1.csv,nds/volume-tank1.csv,NDS,V,Volume,litre
+volume-tank2.csv,nds/volume-tank2.csv,NDS,V,Volume,litre
+pressure-ams.csv,tcs/pressure-ams.csv,TCS,P,Pressure,bar
+pressure-free.csv,tcs/pressure-free.csv,TCS,P,Pressure,bar
+pressure-ics.csv,tcs/pressure-ics.csv,TCS,P,Pressure,bar
+rh-ams_2.csv,tcs/rh-ams_2.csv,TCS,RH,Relative Humidity,percent
+temp-ams_2.csv,tcs/temp-ams_2.csv,TCS,T,Temperature,degrees celsius
+temp-ams_hs_in.csv,tcs/temp-ams_hs_in.csv,TCS,T,Temperature,degrees celsius
+temp-ams_in.csv,tcs/temp-ams_in.csv,TCS,T,Temperature,degrees celsius
+temp-ams_out.csv,tcs/temp-ams_out.csv,TCS,T,Temperature,degrees celsius
+temp-ext_in.csv,tcs/temp-ext_in.csv,TCS,T,Temperature,degrees celsius
+temp-free_in.csv,tcs/temp-free_in.csv,TCS,T,Temperature,degrees celsius
+temp-free_out.csv,tcs/temp-free_out.csv,TCS,T,Temperature,degrees celsius
+temp-ics_in.csv,tcs/temp-ics_in.csv,TCS,T,Temperature,degrees celsius
+temp-il_hs_in.csv,tcs/temp-il_hs_in.csv,TCS,T,Temperature,degrees celsius
+temp-int_out.csv,tcs/temp-int_out.csv,TCS,T,Temperature,degrees celsius
+temp-iocs_out.csv,tcs/temp-iocs_out.csv,TCS,T,Temperature,degrees celsius
+valve-ams.csv,tcs/valve-ams.csv,TCS,VALVE,Valve,percent
+valve-free.csv,tcs/valve-free.csv,TCS,VALVE,Valve,percent
+valve-ics.csv,tcs/valve-ics.csv,TCS,VALVE,Valve,percent

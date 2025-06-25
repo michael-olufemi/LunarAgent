@@ -1,17 +1,22 @@
-Lunar Agriculture Sensor Anomaly Detector 🌱🌕
+# MCPAgent: AI Anomaly Detection + Chat Agent
 
-This project implements a **modular and extensible anomaly detection system** for environmental sensor data collected from space agriculture experiments (e.g., EDEN ISS, VEGGIE, APEX).
+This project combines a real-time anomaly detection engine for CO₂ readings with a LangChain-powered AI agent capable of answering questions and querying logs via chat.
 
-### 🚀 Overview
+## Features
+- Realtime anomaly detection from CSV stream
+- Decision engine for managing alerts
+- LangChain + OpenAI GPT-4 powered chat interface
+- Tools for Wikipedia, DuckDuckGo search, and internal anomaly log access
 
-The system simulates real-time data streaming and performs **per-sensor anomaly detection** using a simple but effective **z-score method**. It is designed to serve as the foundation for an autonomous AI agent that monitors telemetry from a lunar greenhouse.
+## Usage
 
----
+```bash
+# Terminal 1
+python mcp_streamer.py
 
-### 🧠 Core Features
+# Terminal 2
+python chat_agent.py
+See requirements.txt
 
-- ✅ Modular architecture (streamer → classifier → detector)
-- ✅ Real-time simulation using Polars + asyncio
-- ✅ Anomaly detection based on per-sensor z-score
-- ✅ Automatically extracts and classifies all unique sensors
-- ✅ Designed to integrate easily with LLMs or visualization agents
+Place your OpenAI key in .env like:
+OPENAI_API_KEY=sk-...

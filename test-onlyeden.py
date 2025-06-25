@@ -13,19 +13,16 @@ from classifier import classify  # Add this import at the top
 
 warnings.filterwarnings("ignore")
 
-DATA_DIR = os.path.join(os.path.dirname(__file__) or ".", "data")
+# Define the directory where Eden data is stored
+DATA_DIR = os.path.join(os.path.dirname(__file__) or ".", "data", "edeniss2020")
 DROP_COLUMNS = {"Mission_Milestone"}
 REALTIME_DELAY = 0.0000000000001  # seconds
 
 def get_source(file_path):
+    # We only process the Eden dataset
     if "edeniss2020" in file_path.lower():
         return "edeniss2020"
-    name = os.path.splitext(os.path.basename(file_path))[0]
-    if "_EDA" in name:
-        name = name.replace("_EDA", "")
-    parts = name.split("_")
-    return "_".join(parts[:2]) if len(parts) > 2 and parts[-1].isdigit() else name
-
+    return None
 def extract_events_from_file(file_path):
     events = []
 
@@ -111,7 +108,8 @@ def extract_events_from_file(file_path):
                     continue
                 if isinstance(value, str):
                     try:
-                        value = int(value) if re.fullmatch(r"[-+]?\d+", value) else float(value)
+                        # Attempt to convert to a float first, then to an integer if possible
+                        value = float(value) if re.match(r"^\d+(\.\d+)?$", value) else str(value)
                     except Exception:
                         continue
 
@@ -135,6 +133,7 @@ def extract_events_from_file(file_path):
                     print(f"❌ Validation error: {e}", file=sys.stderr)
     return events
 
+
 async def stream_sorted_events(events):
     events.sort(key=lambda x: x[0])  # Sort by datetime
     for _, sensor_obj in events:
@@ -144,20 +143,24 @@ async def stream_sorted_events(events):
 
 async def main():
     if not os.path.isdir(DATA_DIR):
-        print(f"❌ Data directory '{DATA_DIR}' not found.", file=sys.stderr)
+        print(f"❌ Eden data directory '{DATA_DIR}' not found.", file=sys.stderr)
         sys.exit(1)
 
-    print(f"🔍 Loading data from: {DATA_DIR}")
+    print(f"🔍 Loading Eden data from: {DATA_DIR}")
     all_events = []
 
+    # Scan for CSV files in edeniss2020 directory only
     for root, _, files in os.walk(DATA_DIR):
         for filename in files:
             if filename.lower().endswith(".csv"):
                 full_path = os.path.join(root, filename)
                 all_events.extend(extract_events_from_file(full_path))
 
+    if not all_events:
+        print("❌ No Eden events found to stream.")
+        return
+
     await stream_sorted_events(all_events)
 
 if __name__ == "__main__":
     asyncio.run(main())
-
