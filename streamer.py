@@ -9,13 +9,13 @@ from dateutil import parser
 import polars as pl
 import asyncio
 from schemas import SensorData
-from classifier import classify  # Add this import at the top
+from classifier import classify
 
 warnings.filterwarnings("ignore")
 
 DATA_DIR = os.path.join(os.path.dirname(__file__) or ".", "data")
 DROP_COLUMNS = {"Mission_Milestone"}
-REALTIME_DELAY = 0.0000000000001  # seconds
+REALTIME_DELAY = 0.01  # seconds
 
 def get_source(file_path):
     if "edeniss2020" in file_path.lower():
@@ -28,15 +28,11 @@ def get_source(file_path):
 
 def extract_events_from_file(file_path):
     events = []
-
-    # Determine top-level data source (e.g. 'edeniss2020')
     source = get_source(file_path)
-
-    # Determine subsystem for edeniss2020, e.g., 'ams-feg'
     if "edeniss2020" in file_path.lower():
         subsystem = Path(file_path).parts[-2].lower()
     else:
-        subsystem = None  # not needed for APEX/VEG
+        subsystem = None
 
     header_skip = 0
     try:
@@ -117,7 +113,6 @@ def extract_events_from_file(file_path):
 
                 clean_sensor = sensor.strip().rstrip(".xy").lower().replace(" ", "_")
 
-                # ✅ CONDITIONAL NAMING LOGIC
                 if source == "edeniss2020" and subsystem:
                     full_sensor_name = f"{source}-{subsystem}-{clean_sensor}"
                 else:
@@ -125,7 +120,7 @@ def extract_events_from_file(file_path):
 
                 try:
                     obj = SensorData(
-                        timestamp=ts_str,
+                        timestamp=dt, # Keep as datetime for sorting
                         sensor=full_sensor_name,
                         value=value,
                         source=source
@@ -136,28 +131,43 @@ def extract_events_from_file(file_path):
     return events
 
 async def stream_sorted_events(events):
-    events.sort(key=lambda x: x[0])  # Sort by datetime
+    events.sort(key=lambda x: x[0])
     for _, sensor_obj in events:
-        data = sensor_obj.dict()     # Convert Pydantic object to dict
-        classify(data)               # Send to classifier
+        data = sensor_obj.dict()
+        # Ensure timestamp is a string for the classifier/detector
+        data['timestamp'] = data['timestamp'].strftime("%Y-%m-%dT%H:%M:%S")
+        classify(data)
         await asyncio.sleep(REALTIME_DELAY)
 
-async def main():
-    if not os.path.isdir(DATA_DIR):
-        print(f"❌ Data directory '{DATA_DIR}' not found.", file=sys.stderr)
+# NEW function that can be imported by other scripts
+async def stream_all_events_to_classifier(data_dir: str):
+    """
+    Scans a directory for CSV files, extracts sensor data, and streams it
+    to the classifier in chronological order.
+    """
+    if not os.path.isdir(data_dir):
+        print(f"❌ Data directory '{data_dir}' not found.", file=sys.stderr)
         sys.exit(1)
 
-    print(f"🔍 Loading data from: {DATA_DIR}")
+    print(f"🔍 Loading data from: {data_dir}")
     all_events = []
 
-    for root, _, files in os.walk(DATA_DIR):
+    for root, _, files in os.walk(data_dir):
         for filename in files:
             if filename.lower().endswith(".csv"):
                 full_path = os.path.join(root, filename)
                 all_events.extend(extract_events_from_file(full_path))
+    
+    if not all_events:
+        print("No events found to stream.")
+        return
 
     await stream_sorted_events(all_events)
 
+async def main():
+    """Main function to run the streamer as a standalone script."""
+    # This now calls the new importable function
+    await stream_all_events_to_classifier(DATA_DIR)
+
 if __name__ == "__main__":
     asyncio.run(main())
-
