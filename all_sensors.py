@@ -119,23 +119,3 @@ merged_sensor_data = {}
 for sensor in sensor_mapping:
     merged_sensor_data[sensor] = sensor_mapping[sensor]
 
-# Print merged sensor data (for verification)
-for sensor, info in merged_sensor_data.items():
-    print(f"{sensor}: {info['parameter']} - {info['unit']}")
-# Create sets to store unique parameters and units
-unique_parameters = set()
-unique_units = set()
-
-# Iterate through the merged sensor data
-for sensor, info in merged_sensor_data.items():
-    unique_parameters.add(info['parameter'])
-    unique_units.add(info['unit'])
-
-# Print the unique parameters and units
-print("Unique Parameters:")
-for param in unique_parameters:
-    print(f"- {param}")
-
-print("\nUnique Units:")
-for unit in unique_units:
-    print(f"- {unit}")
