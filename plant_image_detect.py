@@ -4,10 +4,17 @@ import cv2
 import numpy as np
 import os
 
-def segment_plant_by_green(image_bgr, lG = 25, uG = 45, green_threshold=5000):
+def segment_plant_by_green(image_bgr, lG = 4, uG = 70, green_threshold=5000):
     """
     Segments green plant from background. Returns mask, segmented image,
     and boolean flag whether a plant is present.
+    Parameters: lg: lower green hue threshold, default is 4,
+                ug: upper green hue threshold, default is 70,
+                image_bgr: input image in BGR format,
+                green_threshold: minimum number of green pixels to consider a plant present.
+    Returns: mask_clean_2: binary mask of the plant,
+             result_2: segmented image with plant,
+             has_plant: boolean flag indicating if a plant is detected.
     """
     control_bgr = cv2.imread(os.path.join(os.getcwd(), '/LunarAgent/plant_report/test/imaging_lens_position_7.0_cam_0_1730496602.jpg')) #control image
     control_bgr = cv2.GaussianBlur(control_bgr, (3,3), 0)
