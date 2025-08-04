@@ -20,7 +20,7 @@ from langchain_community.utilities.wikipedia import WikipediaAPIWrapper
 from langchain_openai import ChatOpenAI
 
 from autonomous_decision_agent import AutonomousDecisionAgent
-from lunar_agent import LunarAgentSystem
+from lunar_agent_system import LunarAgentSystem
 from environmental_thresholds import thresholds
 from plant_image_detect import find_plant_vert_height, segment_plant_by_green
 
