@@ -110,7 +110,7 @@ veg_sensors = {
     'veg_01c-temp_degc_iss_hardware': {'parameter': 'Temperature', 'unit': 'degrees celsius'}
 }
 
-# Update sensor_mapping with APEX and VEG sensors
+# Update sensor_mapping with APEX and VEG sensors  
 sensor_mapping.update(apex_sensors)
 sensor_mapping.update(veg_sensors)
 
@@ -118,4 +118,3 @@ sensor_mapping.update(veg_sensors)
 merged_sensor_data = {}
 for sensor in sensor_mapping:
     merged_sensor_data[sensor] = sensor_mapping[sensor]
-

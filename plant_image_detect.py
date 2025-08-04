@@ -1,5 +1,5 @@
-import seaborn as sns
-import matplotlib.pyplot as plt
+#import seaborn as sns
+#import matplotlib.pyplot as plt
 import cv2
 import numpy as np
 import os
@@ -16,7 +16,7 @@ def segment_plant_by_green(image_bgr, lG = 4, uG = 70, green_threshold=5000):
              result_2: segmented image with plant,
              has_plant: boolean flag indicating if a plant is detected.
     """
-    control_bgr = cv2.imread(os.path.join(os.getcwd(), '/LunarAgent/plant_report/test/imaging_lens_position_7.0_cam_0_1730496602.jpg')) #control image
+    control_bgr = cv2.imread('/Users/ora/Documents/NASA-internship/template_michael/LunarAgent/data/exolab_images/imaging_lens_position_7.0_cam_0_1730496602.jpg') # Control image for background
     control_bgr = cv2.GaussianBlur(control_bgr, (3,3), 0)
     image_bgr = cv2.GaussianBlur(image_bgr, (3,3), 0)
 
@@ -80,11 +80,10 @@ def find_plant_vert_height(mask_inp, genPlot = False):
   y_top = min(comp[cv2.CC_STAT_TOP] for comp in valid_components)
   y_bottom = max(comp[cv2.CC_STAT_TOP] + comp[cv2.CC_STAT_HEIGHT] for comp in valid_components)
 
-  if genPlot:
-    plt.imshow(binary_nr, cmap='gray')
-    plt.axis('off')
-    sns.scatterplot(x=centroids[:, 0], y=centroids[:, 1], s = 5, color = 'blue')
-    sns.scatterplot(x = [0,0], y = [y_top, y_bottom], color = 'red')
+  #if genPlot:
+    #plt.imshow(binary_nr, cmap='gray')
+    #plt.axis('off')
+   # sns.scatterplot(x=centroids[:, 0], y=centroids[:, 1], s = 5, color = 'blue')
+   # sns.scatterplot(x = [0,0], y = [y_top, y_bottom], color = 'red')
 
   return int(y_bottom - y_top)
-

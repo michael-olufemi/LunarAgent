@@ -20,10 +20,44 @@ logging.basicConfig(level=logging.WARNING, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
 class LunarAgentSystem:
+    def execute_action(self, cmd: str):
+        print(f"[EXECUTING ACTION] {cmd}")
+        simulated_responses = {
+            "activate_water_dispenser": "✅ Water dispenser triggered to increase water flow inside the pod.",
+            "deactivate_water_dispenser": "✅ Water dispenser turned off after reaching optimal humidity.",
+            "trigger_alarm": "🚨 Alarm triggered! Anomaly detected in environmental sensors.",
+            "notify_team": "✅ Team has been notified about the triggered alarm.",
+            "log_status": "✅ Current system status has been logged for diagnostic purposes.",
+            "run_metagenomics_analysis": "✅ Follow-up metagenomics analysis scheduled.",
+            "increase_fan_speed": "✅ Fan speed increased to boost air circulation.",
+            "decrease_fan_speed": "✅ Fan speed decreased to reduce airflow.",
+            "activate_electrical_heaters": "✅ Electrical heaters engaged to raise pod temperature.",
+            "deactivate_electrical_heaters": "✅ Electrical heaters turned off after reaching optimal temperature.",
+            "activate_cooling_system": "✅ Cooling system activated to reduce pod temperature.",
+            "deactivate_cooling_system": "✅ Cooling system deactivated after reaching optimal temperature.",
+            "open_air_exchange": "✅ Air exchange port opened to regulate CO₂ levels.",
+            "close_air_exchange": "✅ Air exchange port closed after CO₂ levels returned to normal.",
+            "activate_CO2_scrubber": "✅ CO₂ scrubber activated to lower carbon dioxide concentration.",
+            "deactivate_CO2_scrubber": "✅ CO₂ scrubber deactivated after CO₂ levels returned to normal.",
+            "adjust_photoperiod": "✅ Photoperiod adjusted to optimize light exposure.",
+            "increase_light_intensity": "✅ Light intensity increased to regulate plant growth.",
+            "decrease_light_intensity": "✅ Light intensity decreased for optimal plant growth.",
+            "increase_nitrogen_level": "✅ Nitrogen delivery increased to support metabolic processes.",
+            "decrease_nitrogen_level": "✅ Nitrogen delivery decreased to support metabolic processes.",
+            "flush_nutrient_line": "✅ Nutrient line flushed to remove buildup.",
+            "dispense_ph_up": "✅ pH up solution dispensed to balance acidity.",
+            "run_rnaseq_analysis": "✅ RNA sequencing initiated for transcriptomic assessment.",
+            "schedule_retest": "✅ Follow-up test has been scheduled."
+        }
+        print("    " + simulated_responses.get(cmd, "🟡 Action simulated."))
+
+    
     def __init__(self):
         self.data_dir = os.path.join(os.path.dirname(__file__) or ".", "data")
         self.anomaly_trigger_threshold = 1
         self.decision_agent = AutonomousDecisionAgent()
+        self.active_controls = set()
+
 
     def _parse_and_print_decision(self, raw_output: str, anomalies: list):
         """
@@ -68,14 +102,76 @@ class LunarAgentSystem:
         
         print("\n  REASONING:")
         print(f"    {reasoning}")
-
+       
         print("\n  IMMEDIATE ACTIONS:")
-        # The 'else' statement has been removed as requested.
-        # Now, it will only print the actions it finds.
-        for action in actions:
-                clean_action = re.sub(r"^\d\.\s*", "", action)
-                print(f"    - {clean_action}")
+        # Scan the entire LLM output for known subsystem commands
+        all_output = f"{reasoning}\n{raw_output}"
+        action_keywords = [
+            "trigger_alarm", "notify_team", "activate_water_dispenser", "deactivate_water_dispenser",
+            "log_status", "run_metagenomics_analysis", "increase_fan_speed", "decrease_fan_speed",
+            "activate_electrical_heaters", "deactivate_electrical_heaters", "activate_cooling_system", "deactivate_cooling_system", "open_air_exchange", 
+            "close_air_exchange", "activate_CO2_scrubber", "deactivate_CO2_scrubber",
+            "adjust_photoperiod", "increase_light_intensity", "decrease_light_intensity", "increase_nitrogen_level", "decrease_nitrogen_level", "flush_nutrient_line",
+            "dispense_ph_up", "run_rnaseq_analysis", "schedule_retest"
+        ]    
+
+        executed_actions = []
+        for cmd in action_keywords:
+            if re.search(rf"`?{re.escape(cmd)}`?", all_output, re.IGNORECASE):
+                executed_actions.append(cmd)
+
         
+        if executed_actions:
+            for cmd in executed_actions:
+                print(f"[SYSTEM] Executing: {cmd}")
+                self.execute_action(cmd)
+        else:
+            print("    ❌ No executable actions were found or triggered.")
+    
+    
+    def evaluate_stabilization(self, anomalies):
+        sensors = {a['sensor']: a['value'] for a in anomalies}
+        actions_to_deactivate = []
+
+        value = next((v for k, v in sensors.items() if "rh_percent" in k), None)
+        if "activate_water_dispenser" in self.active_controls and value and 45 <= value <= 70:
+            actions_to_deactivate.append("deactivate_water_dispenser")
+            self.active_controls.remove("activate_water_dispenser")
+            
+        value = next((v for k, v in sensors.items() if "rh_percent" in k), None)
+        if "deactivate_water_dispenser" in self.active_controls and value and value > 70:
+            actions_to_deactivate.append("activate_water_dispenser")
+            self.active_controls.remove("deactivate_water_dispenser")
+
+        value = next((v for k, v in sensors.items() if "temp_degc" in k), None)
+        if "activate_electrical_heaters" in self.active_controls and value and 18 <= value <= 27:
+            actions_to_deactivate.append("deactivate_electrical_heaters")
+            self.active_controls.remove("activate_electrical_heaters")
+
+        value = next((v for k, v in sensors.items() if "temp_degc" in k), None)
+        if "activate_cooling_system" in self.active_controls and value and 18 <= value <= 27:
+            actions_to_deactivate.append("deactivate_cooling_system")
+            self.active_controls.remove("activate_cooling_system")
+
+        value = next((v for k, v in sensors.items() if "co2_ppm" in k), None)
+        if "open_air_exchange" in self.active_controls and value and 300 <= value <= 1000:
+            actions_to_deactivate.append("close_air_exchange")
+            self.active_controls.remove("open_air_exchange")
+
+        value = next((v for k, v in sensors.items() if "co2_ppm" in k), None)
+        if "activate_CO2_scrubber" in self.active_controls and value and 300 <= value <= 1000:
+            actions_to_deactivate.append("deactivate_CO2_scrubber")
+            self.active_controls.remove("activate_CO2_scrubber")
+            
+        value = next((v for k, v in sensors.items() if "co2_ppm" in k), None)
+        if "increase_fan_speed" in self.active_controls and value and 300 <= value <= 1000:
+            actions_to_deactivate.append("decerease_fan_speed")
+            self.active_controls.remove("increase_fan_speed")
+
+        for cmd in actions_to_deactivate:
+            print(f"[SYSTEM] Auto-deactivating: {cmd}")
+            self.execute_action(cmd)
+
 
     async def _check_decision_trigger_loop(self):
         """Continuously checks for anomalies and triggers the decision agent."""
@@ -95,7 +191,21 @@ class LunarAgentSystem:
                 
                 decision_result = await self.decision_agent.run_autonomous_cycle(anomalies_for_this_cycle)
                 
+                import os, json
+                os.makedirs('data', exist_ok=True)
+
+                # Save latest decision
+                with open('data/last_decision.json', 'w') as f:
+                    json.dump(decision_result, f, indent=2)
+
+                # Append to decision log
+                with open('data/decision_log.jsonl', 'a') as f:
+                    f.write(json.dumps(decision_result) + '\\n')
+                
                 self._parse_and_print_decision(decision_result.get("raw_output", ""), anomalies_for_this_cycle)
+                
+                self.evaluate_stabilization(anomalies_for_this_cycle)
+
                 
                 print("\n" + "="*80)
 
