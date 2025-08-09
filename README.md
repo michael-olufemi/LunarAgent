@@ -30,6 +30,7 @@ Ensure the required data files (CSV, TSV, images) are present in the `data/` and
 
 ## Running the Agent
 
+
 ### 1. Command Line Chat Agent
 Run the main agent script:
 ```
@@ -44,6 +45,23 @@ Type your query or anomaly description. Example:
 ```
 👤 You: Humidity is 85% for Fragaria
 ```
+
+### 2. Streamlit Dashboard
+You can also run the agent with a web dashboard using Streamlit:
+```
+streamlit run streamlit_app.py
+```
+This will open a browser window with interactive tabs for:
+- Agent decisions and anomaly logs
+- Chat interface
+- Sensor visualization
+- Image anomaly monitoring
+
+**Example Streamlit Output:**
+- Tabs for Decisions, Anomaly Log, Chat, Sensor Data, and Image Monitoring
+- Real-time updates and refresh buttons
+
+Interact with the agent by entering queries in the chat tab, or view real-time anomaly detection and decision logs in other tabs.
 
 ### 2. Example Outputs
 
