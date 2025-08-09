@@ -257,7 +257,7 @@ class ChatAgent:
                 ]
                 # Step 3: Parse taxonomy files
                 pathogens_16S = ["Xanthomonas fragariae", "Pectobacterium carotovorum"]
-                pathogens_ITS = ["Mycosphaerella fragariae", "Beauveria bassiana"]
+                pathogens_ITS = ["Mycosphaerella fragariae"]
                 detected_pathogens = []
                 taxonomy_report = ""
                 # Find files regardless of location
@@ -273,9 +273,10 @@ class ChatAgent:
                                 species = parts[7]
                                 count = int(parts[8])
                                 full_name = f"{genus} {species}".strip()
+                                taxonomy_report += f"16S: {full_name} - {count}\n"
+                                # Only detect Fragaria-associated pathogens
                                 if full_name in pathogens_16S and count > 0:
                                     detected_pathogens.append(full_name)
-                                taxonomy_report += f"16S: {full_name} - {count}\n"
                     else:
                         taxonomy_report += "16S report error: file not found\n"
                 except Exception as e:
@@ -291,9 +292,10 @@ class ChatAgent:
                                 species = parts[8]
                                 count = int(parts[9])
                                 full_name = f"{genus} {species}".strip()
+                                taxonomy_report += f"ITS: {full_name} - {count}\n"
+                                # Only detect Fragaria-associated pathogens
                                 if full_name in pathogens_ITS and count > 0:
                                     detected_pathogens.append(full_name)
-                                taxonomy_report += f"ITS: {full_name} - {count}\n"
                     else:
                         taxonomy_report += "ITS report error: file not found\n"
                 except Exception as e:
@@ -317,7 +319,7 @@ class ChatAgent:
             if "temperature" in lower and "too high" in lower:
                 anomalies = [{
                     "timestamp": "2025-07-29T14:05:00",
-                    "sensor": "VEG_01AB-temp_degc_iss_hardware",
+                    "sensor": "VEG_01AB-temp_degc_isss_hardware",
                     "value": 29.5,
                     "type": "trend"
                 }]

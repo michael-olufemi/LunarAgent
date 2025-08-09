@@ -30,7 +30,7 @@ AVAILABLE_ACTIONS = [
         ]
 
 class AutonomousDecisionAgent:
-    def __init__(self, model="gpt-4o-mini", temperature=0.2):
+    def __init__(self, model="gpt-4o", temperature=0):
         self.llm_enabled = bool(os.getenv("OPENAI_API_KEY"))
         if not self.llm_enabled:
             logger.warning("LLM is disabled.")

@@ -16,7 +16,11 @@ def segment_plant_by_green(image_bgr, lG = 4, uG = 70, green_threshold=5000):
              result_2: segmented image with plant,
              has_plant: boolean flag indicating if a plant is detected.
     """
-    control_bgr = cv2.imread('/Users/ora/Documents/NASA-internship/template_michael/LunarAgent/data/exolab_images/imaging_lens_position_7.0_cam_0_1730496602.jpg') # Control image for background
+    # Use a relative path for the control image so the code works for any user
+    control_img_rel_path = os.path.join(os.path.dirname(__file__), "data", "exolab_images", "imaging_lens_position_7.0_cam_0_1730496602.jpg")
+    control_bgr = cv2.imread(control_img_rel_path)
+    if control_bgr is None:
+        raise FileNotFoundError(f"Control image not found at {control_img_rel_path}. Please ensure the image exists.")
     control_bgr = cv2.GaussianBlur(control_bgr, (3,3), 0)
     image_bgr = cv2.GaussianBlur(image_bgr, (3,3), 0)
 
