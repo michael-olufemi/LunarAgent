@@ -86,14 +86,9 @@ Known Fragaria pathogens detected (count >= 10):
 - Xanthomonas fragariae (count: 1267): Treatment dispensed and logged.
 - Mycosphaerella fragariae (count: 721): Treatment dispensed and logged.
 Follow-up metagenomics analysis scheduled for 2 weeks post treatment.
-Research summary for Xanthomonas fragariae in Fragaria:
-[Top research result summary...]
-Research summary for Mycosphaerella fragariae in Fragaria:
-[Top research result summary...]
 ```
 **Description:**
 - The agent parses taxonomy files, screens for known pathogens, and only treats those above the actionable threshold (count >= 10).
-- For each detected pathogen, a research summary is provided from a live web search.
 
 #### Image-Based Anomaly
 **Input:**
