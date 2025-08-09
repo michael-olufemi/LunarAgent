@@ -242,27 +242,55 @@ class ChatAgent:
         try:
             lower = user_input.lower()
 
-            # High humidity anomaly for Fragaria triggers response protocol, then metagenomics protocol
-            if ("humidity" in lower or "rh" in lower) and ("85" in lower or "fragaria" in lower or "strawberry" in lower):
+            # Generalized anomaly and metagenomics protocol for any plant
+            # Detect plant name from user input (default to Fragaria if not found)
+            plant_pathogen_db = {
+                "fragaria": {
+                    "16S": ["Xanthomonas fragariae", "Pectobacterium carotovorum"],
+                    "ITS": ["Mycosphaerella fragariae"]
+                },
+                # Add more plants and their known pathogens here
+                "solanum": {
+                    "16S": ["Ralstonia solanacearum"],
+                    "ITS": ["Alternaria solani"]
+                },
+                "arabidopsis": {
+                    "16S": ["Pseudomonas syringae"],
+                    "ITS": ["Botrytis cinerea"]
+                }
+            }
+            # Find plant name in user input
+            plant_name = None
+            for key in plant_pathogen_db.keys():
+                if key in lower:
+                    plant_name = key
+                    break
+            if ("humidity" in lower or "rh" in lower) and ("85" in lower or plant_name):
+                if not plant_name:
+                    plant_name = "fragaria"  # Default
                 # Step 1: Trigger usual response protocol
                 anomaly_input = f"user_input: {user_input}, act and make decisions based on these thresholds: {thresholds}"
                 protocol_response = asyncio.run(self._async_chat(anomaly_input))
 
                 # Step 2: Trigger metagenomics analysis
                 metagenomics_steps = [
-                    "Metagenomics (Amplicon, 16S and ITS) analysis triggered...",
+                    f"Metagenomics (Amplicon, 16S and ITS) analysis triggered for {plant_name.capitalize()}...",
                     "...Automated sample to sequencing protocol executed.",
                     "Automatic data processing completed.",
                     "...Output report of % taxonomy generated."
                 ]
                 # Step 3: Parse taxonomy files
-                pathogens_16S = ["Xanthomonas fragariae", "Pectobacterium carotovorum"]
-                pathogens_ITS = ["Mycosphaerella fragariae"]
+                pathogens_16S = plant_pathogen_db[plant_name]["16S"]
+                pathogens_ITS = plant_pathogen_db[plant_name]["ITS"]
                 detected_pathogens = []
+                pathogen_counts = {}
                 taxonomy_report = ""
+                screening_report = f"Screening detected taxonomies for {plant_name.capitalize()}-specific pathogens...\n"
+                # literature_links removed
                 # Find files regardless of location
-                file_16S = self._find_file("Fragaria_GAmplicon_16S-taxonomy-and-counts.tsv")
-                file_ITS = self._find_file("Fragaria_GAmplicon_ITS-taxonomy-and-counts.tsv")
+                file_16S = self._find_file(f"{plant_name.capitalize()}_GAmplicon_16S-taxonomy-and-counts.tsv")
+                file_ITS = self._find_file(f"{plant_name.capitalize()}_GAmplicon_ITS-taxonomy-and-counts.tsv")
+                # 16S
                 try:
                     if file_16S:
                         with open(file_16S, "r") as f:
@@ -273,15 +301,18 @@ class ChatAgent:
                                 species = parts[7]
                                 count = int(parts[8])
                                 full_name = f"{genus} {species}".strip()
-                                taxonomy_report += f"16S: {full_name} - {count}\n"
-                                # Only detect Fragaria-associated pathogens
-                                if full_name in pathogens_16S and count > 0:
+                                if count > 0:
+                                    taxonomy_report += f"16S: {full_name} - {count}\n"
+                                # Only report and treat plant pathogens with count >= 10
+                                if full_name in pathogens_16S and count >= 10:
                                     detected_pathogens.append(full_name)
+                                    pathogen_counts[full_name] = count
+                                    pass  # literature links removed
                     else:
                         taxonomy_report += "16S report error: file not found\n"
                 except Exception as e:
                     taxonomy_report += f"16S report error: {e}\n"
-                # Parse ITS file
+                # ITS
                 try:
                     if file_ITS:
                         with open(file_ITS, "r") as f:
@@ -292,10 +323,12 @@ class ChatAgent:
                                 species = parts[8]
                                 count = int(parts[9])
                                 full_name = f"{genus} {species}".strip()
-                                taxonomy_report += f"ITS: {full_name} - {count}\n"
-                                # Only detect Fragaria-associated pathogens
-                                if full_name in pathogens_ITS and count > 0:
+                                if count > 0:
+                                    taxonomy_report += f"ITS: {full_name} - {count}\n"
+                                if full_name in pathogens_ITS and count >= 10:
                                     detected_pathogens.append(full_name)
+                                    pathogen_counts[full_name] = count
+                                    pass  # literature links removed
                     else:
                         taxonomy_report += "ITS report error: file not found\n"
                 except Exception as e:
@@ -303,17 +336,21 @@ class ChatAgent:
                 # Step 4: Evaluate for pathogens and dispense treatment
                 treatment_log = ""
                 if detected_pathogens:
+                    treatment_log += f"Known {plant_name.capitalize()} pathogens detected (count >= 10):\n"
                     for pathogen in detected_pathogens:
-                        treatment_log += f"Treatment for {pathogen} dispensed and logged.\n"
+                        count = pathogen_counts.get(pathogen, "?")
+                        treatment_log += f"- {pathogen} (count: {count}): Treatment dispensed and logged.\n"
                     treatment_log += "Follow-up metagenomics analysis scheduled for 2 weeks post treatment.\n"
                 else:
-                    treatment_log = "No known pathogens detected. No treatment required.\n"
+                    treatment_log = f"No known {plant_name.capitalize()} pathogens detected above actionable threshold (count >= 10). No treatment required.\n"
                 # Step 5: Compose response
                 response = protocol_response + "\n\n" + \
                     "---\n" + "\n".join(metagenomics_steps) + "\n\n" + \
-                    "Below are the taxonomy reports that were generated by the automated sequencing hardware:\n" + \
+                    screening_report + \
+                    "Below are the taxonomy reports (only nonzero counts shown):\n" + \
                     taxonomy_report + "\n" + \
-                    treatment_log
+                    treatment_log + "\n" + \
+                    ""
                 return response
 
             if "temperature" in lower and "too high" in lower:
