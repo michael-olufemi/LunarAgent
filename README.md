@@ -55,7 +55,6 @@ This will open a browser window with interactive tabs for:
 - Agent decisions and anomaly logs
 - Chat interface
 - Sensor visualization
-- Image anomaly monitoring
 
 **Example Streamlit Output:**
 - Tabs for Decisions, Anomaly Log, Chat, Sensor Data, and Image Monitoring
