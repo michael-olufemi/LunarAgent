@@ -40,7 +40,6 @@ LunarAgent/
 │   ├── decision_log.jsonl
 ├── test_cases/
 │   ├── images/
-│   │   └── imaging_lens_position_7.0_cam_0_1730496602.jpg
 │   └── taxonomy_reports/
 │       ├── Fragaria_GAmplicon_16S-taxonomy-and-counts.tsv
 │       ├── Fragaria_GAmplicon_ITS-taxonomy-and-counts.tsv
@@ -51,7 +50,7 @@ LunarAgent/
 ### 1. Clone the Repository
 ```
 git clone https://github.com/michael-olufemi/LunarAgent.git
-cd template_michael/LunarAgent
+cd LunarAgent/
 ```
 
 ### 2. Set Up Python Environment
@@ -68,7 +67,7 @@ pip install -r requirements.txt
 ```
 
 ### 4. Download Data
-Ensure the required data files (CSV, TSV, images) are present in the `data/` and `test_cases/images/` directories. Example taxonomy files:
+Ensure the required data files (CSV, TSV, images) are present in the `data/` directory, and in the `test_cases/images/ and test_cases/taxonomy_reports` directories to run the test cases on the agent. Example taxonomy files:
 - `Fragaria_GAmplicon_16S-taxonomy-and-counts.tsv`
 - `Fragaria_GAmplicon_ITS-taxonomy-and-counts.tsv`
 
@@ -96,7 +95,8 @@ You can also run the agent with a web dashboard using Streamlit:
 streamlit run streamlit_app.py
 ```
 This will open a browser window with interactive tabs for:
-- Agent decisions and anomaly logs
+- Agent decisions
+- Anomaly logs
 - Chat interface
 - Sensor visualization
 
