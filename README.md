@@ -1,4 +1,4 @@
-# Lunar Agriculture Pod AI Agent
+# AI Agent for a Simulated Lunar Agriculture Pod 
 
 This project is an autonomous AI agent for managing a lunar agriculture pod. It detects environmental and image-based anomalies, makes realistic decisions, runs metagenomics workflows, and provides actionable reports. The agent can screen for plant pathogens and query research articles for detected pathogens.
 
