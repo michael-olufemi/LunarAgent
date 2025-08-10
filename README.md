@@ -1,6 +1,16 @@
-# AI Agent for a Simulated Lunar Agriculture Pod 
+# AI Agent for a Simulated Lunar Agriculture Pod
 
-This project is an autonomous AI agent for managing a lunar agriculture pod. It detects environmental and image-based anomalies, makes realistic decisions, runs metagenomics workflows, and provides actionable reports. The agent can screen for plant pathogens and query research articles for detected pathogens.
+This project provides an autonomous AI agent designed to manage and monitor a simulated lunar agriculture pod. The agent integrates environmental sensor data, plant image analysis, and metagenomics workflows to ensure optimal plant health and system stability in a closed lunar environment.
+
+The agent continuously monitors environmental conditions such as temperature, humidity, and CO₂ levels using sensor data. When anomalies are detected, it can autonomously trigger corrective actions, such as activating fans or adjusting atmospheric composition, to maintain optimal growing conditions for plants.
+
+In addition to environmental monitoring, the agent analyzes plant images to detect color anomalies, such as yellowing or loss of green signal. These visual cues can indicate nutrient deficiencies, water stress, or disease. The agent automatically flags problematic images and generates detailed color analysis reports to assist with diagnostics.
+
+For pathogen detection, the agent processes metagenomics sequencing data (16S and ITS amplicon files) to screen for plant pathogens. It identifies actionable threats, recommends treatments, and logs all actions taken. The agent can also query scientific literature and databases for information on detected pathogens or environmental issues, providing users with relevant research and context.
+
+Users can interact with the agent through a command-line chat interface or a Streamlit dashboard. The agent responds to queries, provides anomaly detection results, reviews logs, and offers actionable recommendations. All decisions and anomalies are logged for traceability and follow-up.
+
+This project is intended for research, simulation, and prototyping of autonomous agricultural management systems for space habitats. Its modular design allows for easy extension to new ssensors, plant species, and workflows.
 
 ## Project Directory Structure
 
@@ -40,7 +50,7 @@ LunarAgent/
 
 ### 1. Clone the Repository
 ```
-git clone <your-repo-url>
+git clone https://github.com/michael-olufemi/LunarAgent.git
 cd template_michael/LunarAgent
 ```
 
