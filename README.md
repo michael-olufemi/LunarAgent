@@ -2,6 +2,40 @@
 
 This project is an autonomous AI agent for managing a lunar agriculture pod. It detects environmental and image-based anomalies, makes realistic decisions, runs metagenomics workflows, and provides actionable reports. The agent can screen for plant pathogens and query research articles for detected pathogens.
 
+## Project Directory Structure
+
+```
+LunarAgent/
+├── chat_agent.py
+├── lunar_agent_system.py
+├── plant_image_detect.py
+├── schemas.py
+├── streamlit_app.py
+├── tools.py
+├── streamer.py
+├── detector.py
+├── classifier.py
+├── all_sensors.py
+├── all_sensors.txt
+├── autonomous_decision_agent.py
+├── requirements.txt
+├── edeniss2020_updated.csv
+├── environmental_thresholds.py
+├── data/
+│   ├── edeniss2020/
+│   ├── exolab_images/
+│   ├── APEX/
+│   ├── VEG/
+│   ├── last_decision.json
+│   ├── decision_log.jsonl
+├── test_cases/
+│   ├── images/
+│   │   └── imaging_lens_position_7.0_cam_0_1730496602.jpg
+│   └── taxonomy_reports/
+│       ├── Fragaria_GAmplicon_16S-taxonomy-and-counts.tsv
+│       ├── Fragaria_GAmplicon_ITS-taxonomy-and-counts.tsv
+```
+
 ## Installation
 
 ### 1. Clone the Repository
