@@ -1,20 +1,3 @@
-# About
-This project, MCPAgent, was developed during a 10-week internship with NASA Ames Research Center in collaboration with HackBio. It combines a real-time anomaly detection engine with a LangChain-powered AI chat agent to support autonomous monitoring and decision-making in a simulated lunar agriculture pod.
-
-Originally designed for detecting CO₂ anomalies, MCPAgent has been extended to integrate multiple data streams (environmental sensors, plant imaging, and metagenomics). The system can both detect issues in real time and provide interactive, context-aware responses through a chat interface. Its modular architecture makes it adaptable for additional sensor types, biological workflows, and space or terrestrial controlled-environment farming.
-
-Key Features
-
-Real-time anomaly detection from CSV data streams
-
-Decision engine for managing alerts and triggering actions
-
-LangChain + OpenAI GPT-4 powered chat interface
-
-Tools for querying Wikipedia, DuckDuckGo, and internal anomaly logs
-
-Extendable framework for new data sources and autonomous workflows
-
 # AI Agent for a Simulated Lunar Agriculture Pod
 
 This project provides an autonomous AI agent designed to manage and monitor a simulated lunar agriculture pod. The agent integrates environmental sensor data, plant image analysis, and metagenomics workflows to ensure optimal plant health and system stability in a closed lunar environment.
